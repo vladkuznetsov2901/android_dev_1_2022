@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">m2</string>
+    <string name="uptext">Верхняя строчка</string>
+    <string name="downtext">Нижняя строчка</string>
+    <item name="my_custom_view_uptext" type="id" />
 </resources>
