@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.m2.CustomView
+    <com.example.m2.CustomActivity
         android:id="@+id/customView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    </com.example.m2.CustomView>
+    </com.example.m2.CustomActivity>
 
 </FrameLayout>

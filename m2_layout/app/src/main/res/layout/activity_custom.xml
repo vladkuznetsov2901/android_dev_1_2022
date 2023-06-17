@@ -39,7 +39,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="360dp"
             android:layout_margin="10dp"
             android:background="@android:color/transparent"
             android:foreground="@drawable/black_border">
@@ -47,10 +47,10 @@
         </View>
 
         <FrameLayout
-            android:layout_width="155pt"
+            android:layout_width="150pt"
             android:layout_height="100pt"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="70pt"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="130dp"
             android:background="@android:color/darker_gray">
 
 

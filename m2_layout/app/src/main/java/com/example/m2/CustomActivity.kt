@@ -3,11 +3,11 @@ package com.example.m2
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.example.m2.databinding.MyCustomViewBinding
-import java.time.format.DecimalStyle
+import com.example.m2.databinding.ActivityCustomBinding
 
-class CustomView
+class CustomActivity
 @JvmOverloads
 constructor(
     context: Context,
@@ -15,9 +15,11 @@ constructor(
     defStyle: Int = 0,
 ) : LinearLayout(context, attrs, defStyle) {
 
-    val binding = MyCustomViewBinding.inflate(LayoutInflater.from(context))
+    private val binding = ActivityCustomBinding.inflate(LayoutInflater.from(context))
 
     init {
+        binding.root.layoutParams =
+            ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         addView(binding.root)
     }
 
