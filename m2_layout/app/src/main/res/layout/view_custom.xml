@@ -14,7 +14,8 @@
         <TextView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_margin="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
             android:background="@android:color/black" />
 
         <TextView
@@ -22,8 +23,8 @@
             android:text="up text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="130dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="40dp"
             android:ellipsize="end"
             android:lines="1" />
 
@@ -32,14 +33,14 @@
             android:text="down text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="130dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="70dp"
             android:ellipsize="end"
             android:lines="1" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="360dp"
+            android:layout_height="350dp"
             android:layout_margin="10dp"
             android:background="@android:color/transparent"
             android:foreground="@drawable/black_border">
@@ -47,10 +48,10 @@
         </View>
 
         <FrameLayout
-            android:layout_width="150pt"
-            android:layout_height="100pt"
-            android:layout_marginStart="22dp"
-            android:layout_marginTop="130dp"
+            android:layout_width="330dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="140dp"
             android:background="@android:color/darker_gray">
 
 

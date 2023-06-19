@@ -5,9 +5,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.example.m2.databinding.ActivityCustomBinding
+import com.example.m2.databinding.ViewCustomBinding
 
-class CustomActivity
+class CustomView
 @JvmOverloads
 constructor(
     context: Context,
@@ -15,7 +15,7 @@ constructor(
     defStyle: Int = 0,
 ) : LinearLayout(context, attrs, defStyle) {
 
-    private val binding = ActivityCustomBinding.inflate(LayoutInflater.from(context))
+    private val binding = ViewCustomBinding.inflate(LayoutInflater.from(context))
 
     init {
         binding.root.layoutParams =
