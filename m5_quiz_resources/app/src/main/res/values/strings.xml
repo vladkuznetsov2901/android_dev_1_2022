@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Skillbox_hw_quiz</string>
+    <string name="app_name">BrainWave</string>
+    <string name="continueText">Continue</string>
 </resources>
