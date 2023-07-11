@@ -14,12 +14,6 @@ class MainFragment : Fragment() {
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
-    private lateinit var viewModel: MainViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +27,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.startButton.setOnClickListener {
-            findNavController().navigate(R.id.quizFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_quizFragment)
         }
 
     }

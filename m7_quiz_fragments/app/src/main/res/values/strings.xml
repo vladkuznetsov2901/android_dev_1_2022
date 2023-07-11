@@ -7,4 +7,5 @@
     <string name="back">Назад</string>
     <string name="send">Отправить</string>
     <string name="again">Начать заново</string>
+    <string name="results">results</string>
 </resources>

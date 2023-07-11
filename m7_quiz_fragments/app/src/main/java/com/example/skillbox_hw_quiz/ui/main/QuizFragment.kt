@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.indices
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import androidx.navigation.fragment.findNavController
 import com.example.skillbox_hw_quiz.R
 import com.example.skillbox_hw_quiz.databinding.FragmentQuizBinding
 import com.example.skillbox_hw_quiz.quiz.Quiz
@@ -23,13 +23,6 @@ class QuizFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
-    private lateinit var viewModel: MainViewModel
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -38,10 +31,9 @@ class QuizFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val fragmentManager = requireActivity().supportFragmentManager
 
         val quiz = QuizStorage.getQuiz(locale = QuizStorage.Locale.Ru)
 
@@ -63,7 +55,7 @@ class QuizFragment : Fragment() {
         val backButton = binding.buttonBack
 
         backButton.setOnClickListener {
-            fragmentManager.popBackStack()
+            findNavController().popBackStack()
         }
 
 
@@ -81,13 +73,9 @@ class QuizFragment : Fragment() {
                 answers.add(searchAnswerInRadioGroup(binding.custom3))
                 val results = QuizStorage.answer(quiz, answers)
 
-                val bundle = Bundle().apply {
-                    putString("results", results)
-                }
-                parentFragmentManager.commit {
-                    replace<AnswersFragment>(containerViewId = R.id.container, args = bundle)
-                    addToBackStack(AnswersFragment::class.java.simpleName)
-                }
+                val bundle = bundleOf("results" to results)
+
+                findNavController().navigate(R.id.action_quizFragment_to_answersFragment, bundle)
 
                 binding.custom1.getRadioGroup().clearCheck()
                 binding.custom2.getRadioGroup().clearCheck()

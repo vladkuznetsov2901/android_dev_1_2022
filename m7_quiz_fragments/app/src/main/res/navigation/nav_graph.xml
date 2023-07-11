@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/mainFragment"
+    app:popUpToInclusive="true">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.skillbox_hw_quiz.ui.main.MainFragment"
@@ -20,6 +21,11 @@
         <action
             android:id="@+id/action_quizFragment_to_answersFragment"
             app:destination="@id/answersFragment" />
+
+        <argument
+            android:name="@string/results"
+            app:argType="string"
+            />
     </fragment>
     <fragment
         android:id="@+id/answersFragment"
@@ -28,6 +34,13 @@
         tools:layout="@layout/fragment_answers" >
         <action
             android:id="@+id/action_answersFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_answersFragment_to_quizFragment"
+            app:destination="@id/quizFragment"
+            app:popUpTo="@+id/quizFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>
