@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BrainWave</string>
+    <string name="startText">Начать</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="questions">Вопросы</string>
+    <string name="back">Назад</string>
+    <string name="send">Отправить</string>
+    <string name="again">Начать заново</string>
+    <string name="results">results</string>
+    <string name="thx_text">Спасибо за ответы!</string>
+    <string name="date_of_birth">Введите дату рождения</string>
+    <string name="date_dialog_title">Ваша дата рождения</string>
+    <string name="toast_from_answers">Вы ответили не на все вопросы!</string>
+
+</resources>
