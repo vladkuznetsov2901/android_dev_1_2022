@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">M3Components</string>
+    <string name="timer">Timer</string>
+    <string name="start">Start</string>
+    <string name="zero">0</string>
+    <string name="stop">Stop</string>
+</resources>
