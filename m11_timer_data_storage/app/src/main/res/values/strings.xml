@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">M11</string>
+    <string name="clear">Очистить</string>
+    <string name="save">Сохранить</string>
+    <string name="enter_text">Введите текст!</string>
+    <string name="nothing">Nothing</string>
+</resources>
