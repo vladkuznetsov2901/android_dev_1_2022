@@ -32,15 +32,12 @@ class MainViewModel : ViewModel() {
                 if (query.length >= 3) {
                     searchJob?.cancel()
                     searchJob = onSearchButtonClicked()
-                } else {
-                    _state.value.isLoading = false
                 }
             }
             .launchIn(viewModelScope)
     }
 
     private fun onSearchButtonClicked(): Job {
-
         return viewModelScope.launch {
             _state.value = State.Loading
             state.value.isLoading = true
