@@ -4,15 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.SearchView
-import android.widget.TextView
-import androidx.core.view.isVisible
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.m12.databinding.FragmentMainBinding
@@ -51,13 +46,10 @@ class MainFragment : Fragment() {
             binding.requestText.text = bundle.getString(KEY_TEXT)
         }
 
-        viewModel.checkedSearchCharacters(binding.searchView, binding.searchButton)
-
-        binding.searchButton.setOnClickListener {
-             viewModel.onSearchButtonClicked()
-        }
+        viewModel.checkedSearchCharacters()
 
         stateCheck(binding.searchView)
+
 
 
     }
@@ -74,30 +66,20 @@ class MainFragment : Fragment() {
 
 
     private fun stateCheck(
-        searchView: SearchView,
+        searchView: EditText,
 
-    ) {
+        ) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
-                    when (state) {
-                        State.Start -> {
-
-                        }
-
-                        State.Loading -> {
-
-                        }
-
-                        State.Success -> {
-                            val result = "По запросу ${searchView.query} ничего не найдено"
-                            viewModel.textOnSearch = result
-                            binding.invalidateAll()
-                        }
+                    if (state == State.Success) {
+                        val result = "По запросу ${searchView.text} ничего не найдено"
+                        viewModel.textFromSearch = result
+                        binding.invalidateAll()
                     }
                 }
-            }
 
+            }
         }
     }
 
