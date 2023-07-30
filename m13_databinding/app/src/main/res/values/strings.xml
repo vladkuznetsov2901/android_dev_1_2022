@@ -2,4 +2,5 @@
     <string name="app_name">M12</string>
     <string name="result_request">Здесь будет отображаться результат запроса</string>
     <string name="search">Search</string>
+    <string name="result">По запросу %1$s ничего не найдено</string>
 </resources>

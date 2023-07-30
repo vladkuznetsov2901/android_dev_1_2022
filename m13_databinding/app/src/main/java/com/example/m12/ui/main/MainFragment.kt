@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.m12.R
 import com.example.m12.databinding.FragmentMainBinding
 import kotlinx.coroutines.launch
 
@@ -42,39 +43,28 @@ class MainFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        savedInstanceState?.let {bundle ->
-            binding.requestText.text = bundle.getString(KEY_TEXT)
-        }
-
         viewModel.checkedSearchCharacters()
 
         stateCheck(binding.searchView)
-
 
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding  = null
+        _binding = null
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(KEY_TEXT, binding.requestText.text.toString())
-    }
 
 
     private fun stateCheck(
         searchView: EditText,
-
         ) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
                     if (state == State.Success) {
-                        val result = "По запросу ${searchView.text} ничего не найдено"
-                        viewModel.textFromSearch = result
+                        viewModel.textFromSearch = getString(R.string.result, searchView.text)
                         binding.invalidateAll()
                     }
                 }

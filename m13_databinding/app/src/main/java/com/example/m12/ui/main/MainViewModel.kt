@@ -1,9 +1,5 @@
 package com.example.m12.ui.main
 
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.EditText
-import android.widget.SearchView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.FlowPreview
@@ -17,7 +13,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
-class MainViewModel() : ViewModel() {
+class MainViewModel : ViewModel() {
 
 
     private val _state = MutableStateFlow<State>(State.Start)
@@ -28,16 +24,16 @@ class MainViewModel() : ViewModel() {
     private var searchJob: Job? = null
 
 
-
+    @OptIn(FlowPreview::class)
     fun checkedSearchCharacters() {
         searchText.asStateFlow()
             .debounce(300)
-            .onEach {query ->
+            .onEach { query ->
                 if (query.length >= 3) {
-                    // Отменяем предыдущий поиск, если он был запущен
                     searchJob?.cancel()
-                    // Запускаем новый поиск
                     searchJob = onSearchButtonClicked()
+                } else {
+                    _state.value.isLoading = false
                 }
             }
             .launchIn(viewModelScope)
@@ -54,7 +50,6 @@ class MainViewModel() : ViewModel() {
 
         }
     }
-
 
 
 }
