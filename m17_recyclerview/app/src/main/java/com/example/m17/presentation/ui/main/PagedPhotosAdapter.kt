@@ -3,15 +3,16 @@ package com.example.m17.presentation.ui.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.m17.data.Photo
 import com.example.m17.databinding.PhotoItemBinding
 
-class PhotosAdapter(
+class PagedPhotosAdapter(
     private val onClick: (Photo) -> Unit,
 ) :
-    PagingDataAdapter<Photo, PhotosAdapterViewHolder>(DiffUtilCallback()) {
+    PagingDataAdapter<Photo, PagedPhotosAdapterViewHolder>(DiffUtilCallback()) {
 
 
     private var photos: List<Photo> = emptyList()
@@ -20,12 +21,15 @@ class PhotosAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotosAdapterViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): PagedPhotosAdapterViewHolder {
         val binding = PhotoItemBinding.inflate(LayoutInflater.from(parent.context))
-        return PhotosAdapterViewHolder(binding)
+        return PagedPhotosAdapterViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: PhotosAdapterViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PagedPhotosAdapterViewHolder, position: Int) {
         val photo = photos[position]
 
         with(holder.binding) {
@@ -46,6 +50,13 @@ class PhotosAdapter(
     override fun getItemCount(): Int = photos.size
 }
 
+class DiffUtilCallback : DiffUtil.ItemCallback<Photo>() {
+    override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean =
+        oldItem.id == newItem.id
 
-class PhotosAdapterViewHolder(val binding: PhotoItemBinding) :
-    RecyclerView.ViewHolder(binding.root)
+    override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean =
+        oldItem == newItem
+}
+
+class PagedPhotosAdapterViewHolder(val binding: PhotoItemBinding) :
+    RecyclerView.ViewHolder(binding.root) {}

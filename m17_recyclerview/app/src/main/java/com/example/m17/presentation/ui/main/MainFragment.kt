@@ -24,10 +24,6 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
 
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
@@ -57,8 +53,8 @@ class MainFragment : Fragment() {
         binding.recycler.adapter = photosAdapter
 
 
-        viewModel.pagedPhotos.onEach {
-            photosAdapter.submitData(it)
+        viewModel.photos.onEach {
+            photosAdapter.setPhotos(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
