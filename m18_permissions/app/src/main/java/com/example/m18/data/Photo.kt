@@ -15,5 +15,5 @@ data class Photo(
     val src: String,
 
     ) {
-    constructor(src: String): this(Int.MIN_VALUE, src)
+    constructor(src: String): this(0, src)
 }

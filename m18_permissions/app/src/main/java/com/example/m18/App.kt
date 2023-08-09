@@ -16,7 +16,7 @@ class App : Application() {
         db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java,
-            "db"
+            "photoSRC"
         ).build()
     }
 
