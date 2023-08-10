@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 
 @Database(entities = [Photo::class], version = 1)
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
 
     abstract fun photoDao(): PhotoDAO
@@ -16,7 +16,7 @@ abstract class AppDatabase: RoomDatabase() {
         private var dbINSTANCE: AppDatabase? = null
         fun getAppDB(context: Context): AppDatabase {
             if (dbINSTANCE == null) {
-                dbINSTANCE = Room.databaseBuilder<AppDatabase>(
+                dbINSTANCE = Room.databaseBuilder(
                     context.applicationContext, AppDatabase::class.java, name = "db"
                 )
                     .allowMainThreadQueries()

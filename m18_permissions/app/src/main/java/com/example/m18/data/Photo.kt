@@ -14,6 +14,9 @@ data class Photo(
     @ColumnInfo(name = "src")
     val src: String,
 
+    @ColumnInfo(name = "date")
+    val date: String,
+
     ) {
-    constructor(src: String): this(0, src)
+    constructor(src: String, date: String) : this(0, src, date)
 }

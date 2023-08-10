@@ -18,11 +18,10 @@ class MainViewModel @Inject constructor(private val repository: PhotoRepository)
     private val _photos = MutableStateFlow<List<Photo>>(emptyList())
     val photos = _photos.asStateFlow()
 
-    var allPhotos = repository.getAllPhotos()
-
     init {
         getPhotos()
     }
+
     suspend fun insertPhoto(photo: Photo) {
 
         withContext(Dispatchers.IO) {
@@ -30,12 +29,12 @@ class MainViewModel @Inject constructor(private val repository: PhotoRepository)
         }
     }
 
-    private fun getPhotos() {
+    fun getPhotos() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 repository.getAllPhotos()
             }.fold(
-                onSuccess = {photos -> updatePhotos(photos) },
+                onSuccess = { photos -> updatePhotos(photos) },
                 onFailure = { throwable ->
                     Log.e(
                         "PhotosListViewModel",
@@ -50,9 +49,6 @@ class MainViewModel @Inject constructor(private val repository: PhotoRepository)
     private fun updatePhotos(photos: List<Photo>) {
         _photos.value = photos
     }
-
-
-
 
 
 }

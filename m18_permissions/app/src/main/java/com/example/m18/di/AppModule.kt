@@ -18,6 +18,7 @@ object AppModule {
     fun getAppDB(context: Application): AppDatabase {
         return AppDatabase.getAppDB(context)
     }
+
     @Provides
     @Singleton
     fun getDao(database: AppDatabase): PhotoDAO {

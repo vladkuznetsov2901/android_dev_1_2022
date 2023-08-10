@@ -19,11 +19,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
-
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
@@ -51,6 +46,7 @@ class MainFragment : Fragment() {
         binding.button.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_cameraFragment)
         }
+
 
         lifecycleScope.launch {
             viewModel.photos.collect { photos ->

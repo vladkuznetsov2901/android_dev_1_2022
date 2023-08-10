@@ -25,6 +25,7 @@ class PhotoAdapter :
                 .asBitmap()
                 .load(photo.src)
                 .into(photoView)
+            textView.text = photo.date
         }
 
     }

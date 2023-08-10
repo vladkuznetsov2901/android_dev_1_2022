@@ -18,6 +18,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.m18.R
 import com.example.m18.data.Photo
 import com.example.m18.databinding.FragmentCameraBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -142,16 +144,19 @@ class CameraFragment : Fragment() {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val photoPath = outputFileResults.savedUri?.toString()
-                    val photo = Photo(src = photoPath.toString())
+
+                    val photo = Photo(src = photoPath.toString(), date = name)
 
                     GlobalScope.launch(Dispatchers.IO) {
                         viewModel.insertPhoto(photo)
+                        viewModel.getPhotos()
                     }
                     Toast.makeText(
                         context,
                         "Photo saved on: ${outputFileResults.savedUri}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    findNavController().navigate(R.id.action_cameraFragment_to_mainFragment)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
