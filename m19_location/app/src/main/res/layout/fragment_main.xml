@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.MainFragment">
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-72dp"
+        tools:layout_editor_absoluteY="127dp">
+
+
+        <Button
+            android:id="@+id/button_plus"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/teal_700"
+
+            android:layout_marginStart="280dp"
+            android:layout_marginTop="260dp"
+            android:textAlignment="center"
+
+            android:text="@string/plus" />
+
+        <Button
+            android:id="@+id/button_minus"
+            android:layout_width="50dp"
+            android:background="@color/teal_700"
+            android:layout_height="50dp"
+            android:layout_marginStart="280dp"
+            android:layout_marginTop="340dp"
+            android:textAlignment="center"
+
+            android:text="@string/minus" />
+    </com.yandex.mapkit.mapview.MapView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

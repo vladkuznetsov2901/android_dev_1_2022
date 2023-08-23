@@ -31,7 +31,7 @@ object RetrofitServices {
 }
 
 interface SearchPhotosApi {
-    @GET("api/v1/rovers/curiosity/photos?sol=100&api_key=$api_key")
+    @GET("api/v1/rovers/curiosity/photos?sol=1000&api_key=$api_key")
     suspend fun getResultsOfPhotos(@Query("page") page: Int): Response<PhotosActivity>
 
     companion object {
