@@ -160,15 +160,6 @@ class MainFragment : Fragment() {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            delay(5000)
-            binding.mapView.map.move(
-                CameraPosition(userLocation, 8F, 0f, 0f),
-                Animation(Animation.Type.SMOOTH, 0.2f),
-                null
-            )
-        }
-
 
 
         mapObjectCollection.addTapListener(tapListener)
