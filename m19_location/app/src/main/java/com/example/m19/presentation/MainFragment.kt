@@ -1,5 +1,6 @@
 package com.example.m19.presentation
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,10 +13,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.m19.R
 import com.example.m19.databinding.FragmentMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -37,6 +40,9 @@ import com.yandex.mapkit.map.MapObjectCollection
 import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.runtime.image.ImageProvider
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
     private lateinit var fusedClient: FusedLocationProviderClient
@@ -113,49 +119,59 @@ class MainFragment : Fragment() {
 
         setMarkerInLocation(viewModel.attractionsList)
 
-
-        binding.mapView.map.move(
-            CameraPosition(userLocation, 11.0f, 0.0f, 0.0f),
-            Animation(Animation.Type.LINEAR, 2F),
-            null
-        )
-
-        binding.buttonPlus.setOnClickListener {
-            val zoom = map.cameraPosition.zoom + 1.0f
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener {
+            userLocation = Point(it.latitude, it.longitude)
             binding.mapView.map.move(
-                CameraPosition(userLocation, zoom, 0.0f, 0.0f),
-                Animation(Animation.Type.LINEAR, 1F),
+                CameraPosition(userLocation, 8F, 0f, 0f),
+                Animation(Animation.Type.SMOOTH, 0.2f),
                 null
             )
+        }
+
+        binding.buttonPlus.setOnClickListener {
+            binding.mapView.map.cameraPosition.let {
+                binding.mapView.map.move(
+                    CameraPosition(it.target, it.zoom + 1, 0f, 0f),
+                    Animation(Animation.Type.LINEAR, 1F),
+                    null
+                )
+
+            }
         }
 
         binding.buttonMinus.setOnClickListener {
-            val zoom = map.cameraPosition.zoom - 1.0f
+            binding.mapView.map.cameraPosition.let {
+                binding.mapView.map.move(
+                    CameraPosition(it.target, it.zoom - 1, 0f, 0f),
+                    Animation(Animation.Type.LINEAR, 1F),
+                    null
+                )
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(5000)
             binding.mapView.map.move(
-                CameraPosition(userLocation, zoom, 0.0f, 0.0f),
-                Animation(Animation.Type.LINEAR, 1F),
+                CameraPosition(userLocation, 8F, 0f, 0f),
+                Animation(Animation.Type.SMOOTH, 0.2f),
                 null
             )
         }
 
-        val tapListener = object : GeoObjectTapListener, MapObjectTapListener {
-            override fun onObjectTap(geoObjectTapEvent: GeoObjectTapEvent): Boolean {
-                val attraction = viewModel.attractionsList.find {
-                    it.name == geoObjectTapEvent.geoObject.name
-                }
-                attraction?.let { showAttractionDialog(it) }
 
-                return false
-            }
-
-            override fun onMapObjectTap(p0: MapObject, p1: Point): Boolean {
-                TODO("Not yet implemented")
-            }
-
-        }
 
         mapObjectCollection.addTapListener(tapListener)
-
 
 
     }
@@ -209,6 +225,8 @@ class MainFragment : Fragment() {
             )
             placemarkMapObject.opacity = 0.5f
             placemarkMapObject.setText(attraction.name.toString())
+
+
         }
     }
 
@@ -225,9 +243,27 @@ class MainFragment : Fragment() {
         return bitmap
     }
 
-    private fun showAttractionDialog(attraction: Attraction) {
-        val dialogFragment = AttractionDialogFragment.newInstance(attraction)
-        dialogFragment.show(childFragmentManager, "AttractionDialog")
+    private val tapListener = object : GeoObjectTapListener, MapObjectTapListener {
+        override fun onObjectTap(geoObjectTapEvent: GeoObjectTapEvent): Boolean {
+            val attraction = viewModel.attractionsList.find {
+                it.name == geoObjectTapEvent.geoObject.name
+            }
+
+            attraction?.let {
+                val dialog = AlertDialog.Builder(requireContext())
+                    .setTitle(it.name)
+                    .setMessage(it.title) // Используйте поле с подробным описанием
+                    .setPositiveButton("Закрыть", null)
+                    .create()
+                dialog.show()
+            }
+
+            return false
+        }
+
+        override fun onMapObjectTap(p0: MapObject, p1: Point): Boolean {
+            return false
+        }
     }
 
 
@@ -235,8 +271,8 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
         private const val MAP_API = "8ed2a935-8bfe-47c0-9daf-d54b7f6ecccf"
         private val REQUIRED_PERMISSIONS = arrayOf(
-            android.Manifest.permission.ACCESS_FINE_LOCATION,
-            android.Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
         )
     }
 
