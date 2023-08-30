@@ -256,7 +256,7 @@ class MainFragment : Fragment() {
                             .create()
                         dialog.show()
                     }
-                }
+                } else Toast.makeText(context, "Point tapped: ${point.latitude}, ${point.longitude}", Toast.LENGTH_SHORT).show()
             }
 
 
