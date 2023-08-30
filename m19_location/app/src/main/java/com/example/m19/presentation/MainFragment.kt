@@ -236,23 +236,30 @@ class MainFragment : Fragment() {
 
     private val tapListener = object : GeoObjectTapListener, MapObjectTapListener {
         override fun onObjectTap(geoObjectTapEvent: GeoObjectTapEvent): Boolean {
-            val attraction = viewModel.attractionsList.find {
-                it.name == geoObjectTapEvent.geoObject.name
-            }
 
-            attraction?.let {
-                val dialog = AlertDialog.Builder(requireContext())
-                    .setTitle(it.name)
-                    .setMessage(it.title) // Используйте поле с подробным описанием
-                    .setPositiveButton("Закрыть", null)
-                    .create()
-                dialog.show()
-            }
 
             return false
         }
 
-        override fun onMapObjectTap(p0: MapObject, p1: Point): Boolean {
+        override fun onMapObjectTap(mapObject: MapObject, point: Point): Boolean {
+            for (attraction in viewModel.attractionsList) {
+                if (Point(point.latitude, point.longitude) == Point(
+                        attraction.latitude,
+                        attraction.longitude
+                    )
+                ) {
+                    attraction.let {
+                        val dialog = AlertDialog.Builder(requireContext())
+                            .setTitle(it.name)
+                            .setMessage(it.title)
+                            .setPositiveButton("Закрыть", null)
+                            .create()
+                        dialog.show()
+                    }
+                }
+            }
+
+
             return false
         }
     }
