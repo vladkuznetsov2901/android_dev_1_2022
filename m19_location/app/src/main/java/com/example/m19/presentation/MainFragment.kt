@@ -15,10 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.m19.R
 import com.example.m19.databinding.FragmentMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -31,18 +29,11 @@ import com.google.android.gms.maps.LocationSource
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.layers.GeoObjectTapEvent
-import com.yandex.mapkit.layers.GeoObjectTapListener
 import com.yandex.mapkit.map.CameraPosition
-import com.yandex.mapkit.map.GeoObjectSelectionMetadata
-import com.yandex.mapkit.map.MapObject
 import com.yandex.mapkit.map.MapObjectCollection
 import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.runtime.image.ImageProvider
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
     private lateinit var fusedClient: FusedLocationProviderClient
@@ -110,7 +101,6 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val map = binding.mapView.map
         val locationLayer =
             MapKitFactory.getInstance().createUserLocationLayer(binding.mapView.mapWindow)
         locationLayer.isVisible = true
@@ -215,7 +205,8 @@ class MainFragment : Fragment() {
                 ImageProvider.fromBitmap(marker)
             )
             placemarkMapObject.opacity = 0.5f
-            placemarkMapObject.setText(attraction.name.toString())
+            placemarkMapObject.setText(attraction.name)
+            placemarkMapObject.userData = "${attraction.latitude}, ${attraction.longitude}"
 
 
         }
@@ -234,34 +225,27 @@ class MainFragment : Fragment() {
         return bitmap
     }
 
-    private val tapListener = object : GeoObjectTapListener, MapObjectTapListener {
-        override fun onObjectTap(geoObjectTapEvent: GeoObjectTapEvent): Boolean {
+    private val tapListener = MapObjectTapListener { mapObject, _ ->
+        for (attraction in viewModel.attractionsList) {
+            if (mapObject.userData == "${attraction.latitude}, ${attraction.longitude}"
+            ) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(attraction.name)
+                    .setMessage(attraction.title)
+                    .setPositiveButton(getString(R.string.close), null)
+                    .create()
+                    .show()
 
-
-            return false
-        }
-
-        override fun onMapObjectTap(mapObject: MapObject, point: Point): Boolean {
-            for (attraction in viewModel.attractionsList) {
-                if (Point(point.latitude, point.longitude) == Point(
-                        attraction.latitude,
-                        attraction.longitude
-                    )
-                ) {
-                    attraction.let {
-                        val dialog = AlertDialog.Builder(requireContext())
-                            .setTitle(it.name)
-                            .setMessage(it.title)
-                            .setPositiveButton("Закрыть", null)
-                            .create()
-                        dialog.show()
-                    }
-                } else Toast.makeText(context, "Point tapped: ${point.latitude}, ${point.longitude}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Point tapped: ${mapObject.userData}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-
-
-            return false
         }
+
+
+        true
     }
 
 

@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".presentation.MainFragment">
 
     <com.yandex.mapkit.mapview.MapView
@@ -19,24 +20,24 @@
             android:id="@+id/button_plus"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@color/teal_700"
-
             android:layout_marginStart="280dp"
-            android:layout_marginTop="260dp"
-            android:textAlignment="center"
 
-            android:text="@string/plus" />
+            android:layout_marginTop="260dp"
+            android:background="@color/teal_700"
+            android:text="@string/plus"
+
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/button_minus"
             android:layout_width="50dp"
-            android:background="@color/teal_700"
             android:layout_height="50dp"
             android:layout_marginStart="280dp"
             android:layout_marginTop="340dp"
-            android:textAlignment="center"
+            android:background="@color/teal_700"
+            android:text="@string/minus"
 
-            android:text="@string/minus" />
+            android:textAlignment="center" />
     </com.yandex.mapkit.mapview.MapView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
