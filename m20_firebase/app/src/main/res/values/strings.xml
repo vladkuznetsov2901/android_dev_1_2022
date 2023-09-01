@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">M20</string>
+    <string name="crash">Crash</string>
+    <string name="notify">Notify</string>
+</resources>
